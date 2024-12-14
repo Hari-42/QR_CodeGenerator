@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import filedialog,messagebox
 import qrcode
 from PIL import ImageTk
 
@@ -22,6 +22,15 @@ generate_button = tk.Button(
     command=lambda: generate_qr()
 )
 generate_button.pack(pady=15)
+
+save_button = tk.Button(
+    root,
+    text="Save QR Code",
+    font=("Arial", 12),
+    bg="green",
+    fg="white",
+    command=lambda: save_qr)
+save_button.pack(pady=10)
 
 qr_label = tk.Label(
     root,
@@ -46,5 +55,15 @@ def generate_qr():
     qr_label.image = qr_photo
 
 
+def save_qr():
+
+    # Open a file save dialog
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".png",
+        filetypes=[("PNG files", "*.png"), ("All files", "*.*")]
+    )
+    if file_path:
+        qr_image.save(file_path)
+        messagebox.showinfo("Success", f"QR code saved successfully to {file_path}")
 qr_image = None
 root.mainloop()
