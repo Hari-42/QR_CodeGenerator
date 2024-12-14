@@ -1,4 +1,7 @@
 import tkinter as tk
+from tkinter import messagebox
+import qrcode
+from PIL import ImageTk
 
 root = tk.Tk()
 root.title("QR Code Generator")
@@ -15,7 +18,8 @@ generate_button = tk.Button(
     text="Generate QR Code",
     font=("Arial", 12),
     bg="lightgray",
-    fg="black"
+    fg="black",
+    command=lambda: generate_qr()
 )
 generate_button.pack(pady=15)
 
@@ -29,6 +33,17 @@ qr_label = tk.Label(
     bg="white"
 )
 qr_label.pack(pady=90)
+
+
+def generate_qr():
+    user_input = input_entry.get()
+
+    global qr_image
+    qr_image = qrcode.make(user_input)
+
+    qr_photo = ImageTk.PhotoImage(qr_image)
+    qr_label.config(image=qr_photo, text="",width="300", height="300")
+    qr_label.image = qr_photo
 
 
 qr_image = None
